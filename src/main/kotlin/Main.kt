@@ -1,6 +1,6 @@
 import java.lang.StringBuilder
 
-fun main(args: Array<String>)
+fun main()
 {
  val input = "AAADSSSRRTTHAAAA"
     val output = vhodstroki(input)
