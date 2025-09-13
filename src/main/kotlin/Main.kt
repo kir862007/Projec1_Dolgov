@@ -1,6 +1,7 @@
 import java.lang.StringBuilder
 
-fun main()
+//Задание 1
+/*fun main()
 {
  val input = "AAADSSSRRTTHAAAA"
     val output = vhodstroki(input)
@@ -31,3 +32,21 @@ fun vhodstroki(input: String):String {
     return result.toString()
 }
 
+
+ */
+
+// Задание 2
+/*fun main()
+{
+    println("Введите строку")
+    val input = readLine() ?: ""
+    val charCount = mutableMapOf<Char, Int>()
+    for (char in input)
+    {
+        charCount[char]=charCount.getOrDefault(char,0)+1
+    }
+    charCount.keys.sorted().forEach{char -> println("$char-${charCount[char]}")  }
+}
+*/
+
+//Задание 3
