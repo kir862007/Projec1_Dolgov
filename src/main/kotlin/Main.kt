@@ -1,322 +1,223 @@
-import java.lang.StringBuilder
-import java.util.Scanner
+import kotlin.math.abs
 import kotlin.math.log
 import kotlin.math.round
-//Задание 1
-/*fun main()
-{
- val input = "AAADSSSRRTTHAAAA"
-    val output = vhodstroki(input)
-    println(output)
+
+fun main() {
+
+    println("Hello World!")
+    while(true){
+
+        println("Choose the application (1-6)")
+        val input = readLine()
+        val value = input?.toIntOrNull()
+        println()
+
+        when (value) {
+            1 -> {
+                println("Enter any string")
+
+                val input = readLine()!!
+                println(task1(input))
+            }
+
+            2 -> {
+                println("Enter any string")
+
+                val input = readln()
+                println(task2(input))
+            }
+
+            3 -> {
+
+                println(task3())
+
+            }
+
+            4 -> {
+
+                println(task4())
+
+            }
+
+            5 -> {
+
+                println(task5())
+
+            }
+
+            6 -> {
+
+                println(task6())
+
+            }
+
+            else -> {
+                println("Wrong exit")
+                break;
+            }
+
+        }
+        println();
+    }
+
 }
 
-fun vhodstroki(input: String):String {
-    if (input.isEmpty()) return ""
-    val result = StringBuilder()
+fun task1(input: String): String {
+    if (input.isEmpty()) return "the stack is empty"
+
+    var currentChar = input[0]
     var count = 1
+    val result = StringBuilder()
 
     for (i in 1 until input.length) {
-        if (input[i] == input[i - 1]) {
+        if (input[i] == currentChar) {
             count++
         } else {
-            result.append(input[i-1])
-            if (count > 1) {
-                result.append(count)
-            }
+            result.append(currentChar)
+            if (count > 1) result.append(count)
+            currentChar = input[i]
             count = 1
         }
     }
-    result.append(input[input.length - 1])
-    if(count>1)
-    {
-        result.append(count)
-    }
+
+    result.append(currentChar)
+    if (count > 1) result.append(count)
+
     return result.toString()
 }
-
-
- */
-
-// Задание 2
-/*fun main()
-{
-    println("Введите строку")
-    val input = readLine() ?: ""
+fun task2(input: String) {
     val charCount = mutableMapOf<Char, Int>()
-    for (char in input)
-    {
-        charCount[char]=charCount.getOrDefault(char,0)+1
+
+    for (char in input) {
+        charCount[char] = charCount.getOrDefault(char, 0) + 1
     }
-    charCount.keys.sorted().forEach{char -> println("$char-${charCount[char]}")  }
+
+    val sortedKeys = charCount.keys.sorted()
+
+    for (key in sortedKeys) {
+        println("$key - ${charCount[key]}")
+    }
 }
-*/
 
-//Задание 3
-/*fun main() {
-    val scanner = Scanner(System.`in`)
+fun task3() {
 
-    println("=== КОНВЕРТЕР ДЕСЯТИЧНЫХ ЧИСЕЛ В ДВОИЧНЫЕ ===")
-    println("Введите натуральное число:")
+    println("Convert to binary")
 
-    try {
-        val decimalNumber = scanner.nextInt()
+    print("Enter an integer: ")
+    val input = readLine()?.toIntOrNull()
 
-        if (decimalNumber < 0) {
-            println("Ошибка: Введите натуральное число (положительное целое)!")
+    if (input != null && input >= 0) {
+        val binary = input.toString(2)
+        println("result: $binary")
+    } else {
+        println("Error: integer is excepted")
+    }
+}
+
+fun task4() {
+
+    println("Enter two number and math symbol (as 5.2 3.1 +)")
+
+    val input = readLine()?.trim()
+
+    if (input.isNullOrEmpty()) {
+        println("Empty input")
+        return
+    }
+
+    val parts = input.split(" ")
+
+    if (parts.size != 3) {
+        println("Wrong input")
+        return
+    }
+
+    val number1 = parts[0].toDouble()
+    val number2 = parts[1].toDouble()
+    val operation = parts[2]
+
+    val result = when (operation) {
+        "+" -> number1 + number2
+        "-" -> number1 - number2
+        "*" -> number1 * number2
+        "/" -> {
+            if (number2 == 0.0) {
+                println("Error: /0")
+                return
+            }
+            number1 / number2
+        }
+        else -> {
+            println("Acceptable symbol: +, -, *, /")
             return
         }
-
-        // Преобразование в двоичную систему
-        val binaryString = decimalNumber.toString(2)
-
-        println("\nРезультат преобразования:")
-        println("Десятичное: $decimalNumber")
-        println("Двоичное: $binaryString")
-
-        // Дополнительная информация
-
-
-    } catch (e: Exception) {
-        println("Ошибка: Введите корректное натуральное число!")
-    } finally {
-        scanner.close()
     }
-}
-*/
-//Задание 4
-/*fun main() {
-    val scanner = Scanner(System.`in`)
 
-    println("Введите выражение в формате: ЧИСЛО1 ЧИСЛО2 ОПЕРАЦИЯ")
-    println("Доступные операции: +, -, *, /")
-    print("Ввод: ")
 
-    try {
-        val input = scanner.nextLine().trim()
-        val parts = input.split(" ")
+    println("Result: $result")
 
-        if (parts.size != 3) {
-            throw IllegalArgumentException("Неверный формат ввода. Используйте: ЧИСЛО1 ЧИСЛО2 ОПЕРАЦИЯ")
-        }
-
-        val number1 = parts[0].toDouble()
-        val number2 = parts[1].toDouble()
-        val operation = parts[2]
-
-        val result = when (operation) {
-            "+" -> number1 + number2
-            "-" -> number1 - number2
-            "*" -> number1 * number2
-            "/" -> {
-                if (number2 == 0.0) {
-                    throw ArithmeticException("Ошибка: деление на ноль!")
-                }
-                number1 / number2
-            }
-            else -> throw IllegalArgumentException("Неизвестная операция: $operation. Доступные: +, -, *, /")
-        }
-
-        println("Результат: $result")
-
-    } catch (e: NumberFormatException) {
-        println("Ошибка: введены некорректные числа!")
-    } catch (e: IllegalArgumentException) {
-        println("Ошибка: ${e.message}")
-    } catch (e: ArithmeticException) {
-        println(e.message)
-    } catch (e: Exception) {
-        println("Произошла неизвестная ошибка: ${e.message}")
-    }
+    return
 }
 
- */
-//Задание 5
-/*fun main() {
-    val scanner = Scanner(System.`in`)
+fun task5() {
 
-    // Ввод данных от пользователя
-    print("Введите целое число n: ")
-    val n = scanner.nextInt()
+    println("Enter an integer:")
+    val n = readLine()?.toIntOrNull()
 
-    print("Введите основание степени x: ")
-    val x = scanner.nextInt()
+    println("Enter the degree basis:")
+    val x = readLine()?.toIntOrNull()
 
-    // Проверка на особые случаи
-    if (x == 1) {
-        if (n == 1) {
-            println("y = 0 (любое число)")
-        } else {
-            println("Целочисленный показатель не существует")
+    if (n == null || x == null ||x <= 0 || x == 1 || n <= 0) {
+        println("An Integer degree indicator is not exist")
+        return
+    }
+
+    val yDouble = log(n.toDouble(), x.toDouble())
+
+    val yRounded = round(yDouble).toInt()
+
+    if (abs(yDouble - yRounded) < 1e-10) {
+        var result = 1L
+        for (i in 0 until yRounded) {
+            result *= x
+            if (result > n) break
         }
-        return
-    }
 
-    if (x == -1) {
-        if (n == 1 || n == -1) {
-            println("y существует (четный для 1, нечетный для -1)")
+        if (result == n.toLong()) {
+            println("An Integer degree indicator is exist: y = $yRounded")
+            println("Checking: $x^$yRounded = ${result}")
         } else {
-            println("Целочисленный показатель не существует")
+            println("An Integer degree indicator is not exist")
         }
-        return
-    }
-
-    if (n == 1) {
-        println("y = 0")
-        return
-    }
-
-    if (n == 0) {
-        if (x == 0) {
-            println("y > 0")
-        } else {
-            println("Целочисленный показатель не существует (0 в любой ненулевой степени дает 0)")
-        }
-        return
-    }
-
-    // Основной алгоритм
-    val y = findExponent(n, x)
-
-    if (y != null) {
-        println("y = $y")
-        // Проверка
-        println("Проверка: $x^$y = ${Math.pow(x.toDouble(), y.toDouble()).toInt()}")
     } else {
-        println("Целочисленный показатель не существует")
+        println("An Integer degree indicator is not exist")
     }
 }
 
-fun findExponent(n: Int, x: Int): Int? {
-    // Для положительных оснований
-    if (x > 0) {
-        return findPositiveExponent(n, x)
-    }
-    // Для отрицательных оснований
-    else {
-        return findNegativeExponent(n, x)
-    }
-}
+fun task6() {
 
-fun findPositiveExponent(n: Int, x: Int): Int? {
-    // Используем логарифм для приблизительного определения показателя
-    val approximateY = log(n.toDouble(), x.toDouble())
-    val candidate1 = approximateY.toInt()
-    val candidate2 = candidate1 + 1
+    println("Enter first number (0-9):")
+    val num1 = readln().toInt()
 
-    // Проверяем ближайшие целые значения
-    for (candidate in listOf(candidate1, candidate2)) {
-        if (candidate >= 0 && Math.pow(x.toDouble(), candidate.toDouble()).toInt() == n) {
-            return candidate
-        }
-    }
+    println("Enter second number (0-9):")
+    val num2 = readln().toInt()
 
-    return null
-}
-
-fun findNegativeExponent(n: Int, x: Int): Int? {
-    // Для отрицательных оснований проверяем только нечетные степени
-    // (четные степени дадут положительный результат)
-
-    var y = 1
-    var result = x
-
-    // Ограничим максимальное значение для избежания бесконечного цикла
-    val maxIterations = 1000
-
-    while (y <= maxIterations) {
-        if (result == n) {
-            return y
-        }
-
-        // Умножаем на основание, но следим за переполнением
-        val nextResult = result * x
-        if (nextResult / x != result) { // Проверка на переполнение
-            break
-        }
-        result = nextResult
-        y++
-    }
-
-    return null
-}
-
-// Альтернативная версия с перебором (более надежная для небольших чисел)
-fun findExponentByBruteForce(n: Int, x: Int): Int? {
-    if (x == 0) return null
-    if (n == 1) return 0
-
-    var result = 1
-    var y = 0
-
-    while (true) {
-        y++
-        result *= x
-
-        if (result == n) {
-            return y
-        }
-
-        // Условия выхода из цикла
-        if (Math.abs(result) > Math.abs(n) * 2) break // Результат значительно превысил n
-        if (y > 1000) break // Защита от бесконечного цикла
-        if (x > 0 && result > n && n > 0) break // Для положительных чисел - превысили целевое значение
-        if (x > 1 && result < n && n < 0) break // Для отрицательных результатов
-    }
-
-    return null
-}
-*/
-
-//Задание 6
-fun main() {
-    // Ввод первой цифры
-    println("Введите первую цифру:")
-    val firstDigit = readln().toIntOrNull()
-
-    // Ввод второй цифры
-    println("Введите вторую цифру:")
-    val secondDigit = readln().toIntOrNull()
-
-    // Проверка корректности ввода
-    if (firstDigit == null || secondDigit == null) {
-        println("Ошибка: необходимо ввести цифры (0-9)")
+    if (num1 == num2) {
+        println("Numbers must be different")
         return
     }
 
-    if (firstDigit !in 0..9 || secondDigit !in 0..9) {
-        println("Ошибка: введены не цифры (0-9)")
+    if (num1 !in 0..9 || num2 !in 0..9) {
+        println("Numbers must be in range 0 - 9")
         return
     }
 
-    if (firstDigit == secondDigit) {
-        println("Ошибка: цифры должны быть различными")
-        return
-    }
+    val numbers = listOf(num1 * 10 + num2, num2 * 10 + num1)
+    val oddNumber = numbers.firstOrNull { it % 2 != 0 }
 
-    // Попытка создать нечетное число
-    val result = findOddNumber(firstDigit, secondDigit)
-
-    // Вывод результата
-    if (result != null) {
-        println("Результат: $result")
+    if (oddNumber != null) {
+        println("odd number: $oddNumber")
     } else {
-        println("Создать нечетное число невозможно")
+        println("Its unreal to make the odd number")
     }
-}
-
-fun findOddNumber(digit1: Int, digit2: Int): Int? {
-    // Пробуем составить число из двух цифр
-    val number1 = digit1 * 10 + digit2
-    val number2 = digit2 * 10 + digit1
-
-    // Проверяем, является ли какое-то из чисел нечетным
-    if (number1 % 2 != 0) {
-        return number1
-    }
-    if (number2 % 2 != 0) {
-        return number2
-    }
-
-    // Если оба числа четные
-    return null
 }
